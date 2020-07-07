@@ -3,17 +3,17 @@
 class EngineInternalCombustion
 {
 private:
-	int momentInertiaEngine;                            //Момент инерции двигателя
-	double *array_torque;                               //Крутящий момент
-	double *array_crankshaftRotationSpeed;              //Скорость вращения коленвала
-	int temperatureSuperheat;                           //Температура перегрева
-	double	coefficientHeating_Torque;                  //Коэффициент зависимости скорости нагрева от крутящего момента
-	double  coefficientHeating_Crankshaft;              //Коэффициент зависимости скорости нагрева от скорости вращения коленвала
-	double  coefficientCooling_TemperatureEnviroment;   //Коэффициент зависимости скорости охлаждения от температуры двигателя и окружающей среды
+	int momentInertiaEngine;                            //РњРѕРјРµРЅС‚ РёРЅРµСЂС†РёРё РґРІРёРіР°С‚РµР»СЏ
+	double *array_torque;                               //РљСЂСѓС‚СЏС‰РёР№ РјРѕРјРµРЅС‚
+	double *array_crankshaftRotationSpeed;              //РЎРєРѕСЂРѕСЃС‚СЊ РІСЂР°С‰РµРЅРёСЏ РєРѕР»РµРЅРІР°Р»Р°
+	int temperatureSuperheat;                           //РўРµРјРїРµСЂР°С‚СѓСЂР° РїРµСЂРµРіСЂРµРІР°
+	double	coefficientHeating_Torque;                  //РљРѕСЌС„С„РёС†РёРµРЅС‚ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё СЃРєРѕСЂРѕСЃС‚Рё РЅР°РіСЂРµРІР° РѕС‚ РєСЂСѓС‚СЏС‰РµРіРѕ РјРѕРјРµРЅС‚Р°
+	double  coefficientHeating_Crankshaft;              //РљРѕСЌС„С„РёС†РёРµРЅС‚ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё СЃРєРѕСЂРѕСЃС‚Рё РЅР°РіСЂРµРІР° РѕС‚ СЃРєРѕСЂРѕСЃС‚Рё РІСЂР°С‰РµРЅРёСЏ РєРѕР»РµРЅРІР°Р»Р°
+	double  coefficientCooling_TemperatureEnviroment;   //РљРѕСЌС„С„РёС†РёРµРЅС‚ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё СЃРєРѕСЂРѕСЃС‚Рё РѕС…Р»Р°Р¶РґРµРЅРёСЏ РѕС‚ С‚РµРјРїРµСЂР°С‚СѓСЂС‹ РґРІРёРіР°С‚РµР»СЏ Рё РѕРєСЂСѓР¶Р°СЋС‰РµР№ СЃСЂРµРґС‹
 
 	int sizeArray_torque;
 	int sizeArray_crankshaftRotationSpeed;
-	//Получение значений крутящего момента от скорости вращения коленвала при кусочно-линейной зависимости
+	//РџРѕР»СѓС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РєСЂСѓС‚СЏС‰РµРіРѕ РјРѕРјРµРЅС‚Р° РѕС‚ СЃРєРѕСЂРѕСЃС‚Рё РІСЂР°С‰РµРЅРёСЏ РєРѕР»РµРЅРІР°Р»Р° РїСЂРё РєСѓСЃРѕС‡РЅРѕ-Р»РёРЅРµР№РЅРѕР№ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё
 	double	getTorque(int crankshaftRotationSpeed) {
 		double torque;
 		for (int i = 1; i < sizeArray_torque; i++) {
@@ -22,7 +22,7 @@ private:
 				return torque = ((crankshaftRotationSpeed - array_crankshaftRotationSpeed[i - 1]) *  (array_torque[i] - array_torque[i - 1])) / (array_crankshaftRotationSpeed[i] - array_crankshaftRotationSpeed[i - 1]) + array_torque[i - 1];
 			}
 		}
-		return array_torque[sizeArray_torque - 1];      // Возвращаем последнее значение графика, при условии что превысили максимальное количество оборотов;
+		return array_torque[sizeArray_torque - 1];      // Р’РѕР·РІСЂР°С‰Р°РµРј РїРѕСЃР»РµРґРЅРµРµ Р·РЅР°С‡РµРЅРёРµ РіСЂР°С„РёРєР°, РїСЂРё СѓСЃР»РѕРІРёРё С‡С‚Рѕ РїСЂРµРІС‹СЃРёР»Рё РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РѕР±РѕСЂРѕС‚РѕРІ
 	}
 
 	char* replace(char* out) {
@@ -67,12 +67,12 @@ public:
 		coefficientCooling_TemperatureEnviroment = atof(replace(out));
 	}
 
-	//Проверка данных считанных с конфигуционного файла
+	//РџСЂРѕРІРµСЂРєР° РґР°РЅРЅС‹С… СЃС‡РёС‚Р°РЅРЅС‹С… СЃ РєРѕРЅС„РёРіСѓС†РёРѕРЅРЅРѕРіРѕ С„Р°Р№Р»Р°
 	bool isCorrect() {
-		// Предполагаем, что размеры массивов одинаковые
-		// Предпологаем, что размер массива имеет минимум 2 ячейки, это необходимо
-		// Массив скорости вращения коленвала всегда возрастает
-		// Предполагаем, что скорости вращения коленвала не может быть отрицательной;
+		// РџСЂРµРґРїРѕР»Р°РіР°РµРј, С‡С‚Рѕ СЂР°Р·РјРµСЂС‹ РјР°СЃСЃРёРІРѕРІ РѕРґРёРЅР°РєРѕРІС‹Рµ
+		// РџСЂРµРґРїРѕР»РѕРіР°РµРј, С‡С‚Рѕ СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР° РёРјРµРµС‚ РјРёРЅРёРјСѓРј 2 СЏС‡РµР№РєРё, СЌС‚Рѕ РЅРµРѕР±С…РѕРґРёРјРѕ
+		// РњР°СЃСЃРёРІ СЃРєРѕСЂРѕСЃС‚Рё РІСЂР°С‰РµРЅРёСЏ РєРѕР»РµРЅРІР°Р»Р° РІСЃРµРіРґР° РІРѕР·СЂР°СЃС‚Р°РµС‚
+		// РџСЂРµРґРїРѕР»Р°РіР°РµРј, С‡С‚Рѕ СЃРєРѕСЂРѕСЃС‚Рё РІСЂР°С‰РµРЅРёСЏ РєРѕР»РµРЅРІР°Р»Р° РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕР№;
 		if (sizeArray_crankshaftRotationSpeed != sizeArray_torque) return false;
 		if (sizeArray_crankshaftRotationSpeed < 2) return false;
 		for (int i = 1; i < sizeArray_crankshaftRotationSpeed; i++) {
@@ -105,7 +105,7 @@ public:
 			crankshaftRotationSpeed = crankshaftRotationSpeed + crankshaftAcceleration;
 			torque = getTorque(crankshaftRotationSpeed);
 
-			//Если цикл бесконечный, "выбрасываем" текущую температуру двигателя
+			//Р•СЃР»Рё С†РёРєР» Р±РµСЃРєРѕРЅРµС‡РЅС‹Р№, "РІС‹Р±СЂР°СЃС‹РІР°РµРј" С‚РµРєСѓС‰СѓСЋ С‚РµРјРїРµСЂР°С‚СѓСЂСѓ РґРІРёРіР°С‚РµР»СЏ
 			if (torque == check[0] && crankshaftRotationSpeed == check[1] && temperaturaEngine == check[2]) {
 				throw temperaturaEngine;
 			}
